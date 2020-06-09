@@ -70,7 +70,6 @@ def main():
     expanded_filenames = []
     for filename in args.filenames:
         expanded_filenames.append(glob.glob(filename))
-    print("filenames", args.filenames)
     filenames_to_parse = list(set([item for x in expanded_filenames for item in x]))
     # sorted_filenames_to_parse = sorted(filenames_to_parse, key=key_for_cap_files)
     print ('Going to parse following files:\n', ', '.join(filenames_to_parse))
