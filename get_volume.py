@@ -3,7 +3,7 @@
 script to parse wireshark files for GTP' Data Record Transfer (DRTs) messages.
 It calculates the total volume (DL/UL) for each DRT and (optionally) shows the difference
 (delta) to the configured volume-limit
-TODO: - add the option to show in bytes, kbytes, mbytes
+TODO: - add the option to show volume in bytes, kbytes, mbytes
 """
 
 import pyshark
@@ -45,7 +45,6 @@ def main():
     parser.add_argument('filenames', nargs='+',  help='list of cap/pcap files to parse')
     parser.add_argument("-l", "--limit", default = 0, type=int, help="the volume-limit set on cMG")
     parser.add_argument("-p", "--port", default = 3392 , type=int, help="the gtpprime udp port (default=3392)")
-
     args = parser.parse_args()
 
     limit = args.limit
@@ -59,11 +58,9 @@ def main():
     print ('Going to parse following files:\n', ', '.join(filenames_to_parse))
     display_filter = '(gprscdr.causeForRecClosing == 16)'
     decode_as = {'udp.port=={0}'.format(gtpprime_udp_port):'gtpprime'}
-
     packet_mark = 0
 
     for filename in filenames_to_parse:
-
         print("Processing: ", filename, end="...")
         cap = pyshark.FileCapture(filename, display_filter=display_filter, decode_as=decode_as)
         # print(cap[1])
@@ -85,28 +82,8 @@ def main():
         packet_mark = len(packets)
 
 
-    # print("number of packets", len(packets))
-    # sorted_packets = sorted(packets, key= lambda packet:packet['total_volume'])
-
-
-
-
-
-
-
-
-
-
-
-
 if __name__ == '__main__':
     main()
-
-
-
-
-# print biggest.data
-
 
 
 
