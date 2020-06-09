@@ -1,4 +1,9 @@
 #! python3
+"""
+script to parse wireshark files for GTP' Data Record Transfer (DRTs) messages.
+It calculates the total volume (DL/UL) for each DRT and (optionally) shows the difference
+(delta) to the configured volume-limit
+"""
 
 import pyshark
 import argparse
