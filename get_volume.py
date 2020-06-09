@@ -3,6 +3,7 @@
 script to parse wireshark files for GTP' Data Record Transfer (DRTs) messages.
 It calculates the total volume (DL/UL) for each DRT and (optionally) shows the difference
 (delta) to the configured volume-limit
+TODO: - add the option to show in bytes, kbytes, mbytes
 """
 
 import pyshark
@@ -20,31 +21,15 @@ def get_total_volume(pkt):
     downlink_volume = reduce((lambda x,y: x+y),[x.hex_value for x in pkt.gtpprime.gprscdr_datavolumefbcdownlink.all_fields])
     imsi = pkt.gtpprime.e212_imsi
     frame_no = pkt.number
-
-    
     packets.append({'imsi':imsi, 'total_volume':uplink_volume + downlink_volume, 'frame_no':frame_no})
-
-# def bytes_to_kb(no_of_bytes, binary=True):
-#     if binary:
-#         kbsize = 1024
-#     else:
-#         kbsize = 1000
-#     return no_of_bytes/kbsize
-    
-
-# print("bytes in binary")
-# for packet in sorted_packets:
-#     delta = packet['total_volume'] - limit * 1024
-#     print ('{0}, {1}, {2}, {3}'.format(packet['frame_no'],packet['total_volume'],  delta/1024, packet['imsi']))
-                    
-                    
-# # print("bytes in decimal")
-# # for packet in sorted_packets:
-# #     delta = packet['total_volume'] - limit * 1000
-# #     print ('{0}, {1}, {2}'.format(packet['frame_no'], packet['total_volume'], delta/1000))
     
     
+"""
+TODO: add the option to parse files sequentally 
+(i.e treat them as splitted files of a large cap file)
+following 2 functions are going to be used to that end
 
+"""
 def key_for_cap_files(filename):
     cap = pyshark.FileCapture(filename)
     return(cap[0].sniff_timestamp)
@@ -56,7 +41,6 @@ def get_start_end_time(filename):
     return(first_packet.sniff_time, last_packet.sniff_time)
 
 def main():
-
     parser = argparse.ArgumentParser(description='Get volume from DTR in cap/pcap file')    
     parser.add_argument('filenames', nargs='+',  help='list of cap/pcap files to parse')
     parser.add_argument("-l", "--limit", default = 0, type=int, help="the volume-limit set on cMG")
