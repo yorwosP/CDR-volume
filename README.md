@@ -10,7 +10,7 @@ difference (delta) to the configured volume-limit
 
 get_volume.py [-h] [-l LIMIT] [-p PORT] filenames [filenames ...]
 
-  -l LIMIT, --limit LIMIT the volume-limit set on cMG
+  -l LIMIT, --limit LIMIT the volume-limit set on PGW
   -p PORT, --port PORT  the gtpprime udp port (default=3392)
   
 </pre>  
